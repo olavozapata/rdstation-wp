@@ -9,6 +9,8 @@ Author URI: http://resultadosdigitais.com.br
 
 require_once('create-settings.php');
 
+if ( ! defined( 'WPCF7_LOAD_JS' ) )
+    define( 'WPCF7_LOAD_JS', false );
 
 function addLeadConversion( $rdstation_token, $identifier, $data_array ) {
  	$api_url = "http://www.rdstation.com.br/api/1.2/conversions";
@@ -47,11 +49,12 @@ function addLeadConversion( $rdstation_token, $identifier, $data_array ) {
 
 function get_form_data( $cf7 ) {
 	$token_rdstation = get_option('token_rdstation');
+	$identifier = get_option('form_identifier');
 	$submission = WPCF7_Submission::get_instance();
 	if ( $submission ) {
 	 	$form_data = $submission->get_posted_data();
 	}
-  addLeadConversion($token_rdstation, null, $form_data);
+  addLeadConversion($token_rdstation, $identifier, $form_data);
 }
 add_action('wpcf7_mail_sent', 'get_form_data');
 
