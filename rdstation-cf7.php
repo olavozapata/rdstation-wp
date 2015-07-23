@@ -48,14 +48,17 @@ function addLeadConversion( $rdstation_token, $identifier, $data_array ) {
 }
 
 function get_form_data( $cf7 ) {
-	$token_rdstation = get_option('token_rdstation');
-	$identifier = get_option('form_identifier');
-	$submission = WPCF7_Submission::get_instance();
-	if ( $submission ) {
-	 	$form_data = $submission->get_posted_data();
-	}
-  addLeadConversion($token_rdstation, $identifier, $form_data);
+	$options = get_option('rdcf7_options');
+	$form_id = $options['form_id'];
+
+	if ($form_id == $cf7->id){
+		$submission = WPCF7_Submission::get_instance();
+		if ( $submission ) {
+		 	$form_data = $submission->get_posted_data();
+		}
+		$token_rdstation = $options['token_rdstation'];
+		$identifier = $options['form_identifier'];
+    	addLeadConversion($token_rdstation, $identifier, $form_data);
+    }
 }
 add_action('wpcf7_mail_sent', 'get_form_data');
-
-?>
