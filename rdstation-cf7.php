@@ -1,7 +1,7 @@
 <?php
 
 /*
-Plugin Name: RD Station CF7
+Plugin Name: RD Station WP
 Description: Integração do Contact Form 7 com o RD Station
 Author: Resultados Digitais
 Author URI: http://resultadosdigitais.com.br

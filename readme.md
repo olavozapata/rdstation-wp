@@ -13,7 +13,7 @@ Seu uso é bastante simples, e consiste apenas em uma configuração adicional n
 ### Instalação
 Os blogs entregues pela Resultados Digitais atualmente, já vem com o RD Station WP instalado. Se for o seu caso, pule esta etapa.  
 
-Se seu site/blog atende os requisitos mencionados acima, baixe o plugin neste link: [http://rdstation.com.br/rdstation-wp.zip](http://rdstation.com.br/rdstation-wp.zip)
+Se seu site/blog atende os requisitos mencionados acima, baixe o plugin neste link: [https://github.com/ResultadosDigitais/rdstation-wp/archive/basic-version-plugin.zip](https://github.com/ResultadosDigitais/rdstation-wp/archive/basic-version-plugin.zip)
 
 Com o plugin baixado, entre no seu painel do WordPress, e vá até a página de plugins. Depois clique em **Adicionar novo** e **Fazer upload do plugin**. Então selecione o arquivo que você baixou e clique em **Instalar agora**. Após a instalação, clique em **Ativar plugin**.  
 Pronto, seu plugin foi instalado. Precisamos agora configurá-lo para realizar a integração com o RD Station.
