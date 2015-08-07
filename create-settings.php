@@ -1,102 +1,113 @@
 <?php
 
-//Menus
-function rdcf7_add_menu_page(){
-	add_menu_page(
-		'RD Station CF7',
-		'RD Station CF7',
-		'manage_options',
-		'rdcf7-theme-page',
-		'rdcf7_page_display'
-	);
+//Create custom post type for integrations
+function rdcf7_custom_post_type() {
+    $labels = [
+        'name'                  => _x( 'Integrações', 'post_type_general_name' ),
+        'singular_name'         => _x( 'Integração', 'post_type_singular_name' ),
+        'add_new'               => _x( 'Criar integração', 'integration' ),
+        'add_new_item'          => __( 'Criar Nova Integração' ),
+        'edit_item'             => __( 'Editar Integração' ),
+        'new_item'              => __( 'Nova Integração' ),
+        'all_items'             => __( 'Todas Integrações' ),
+        'view_item'             => __( 'Ver Integrações' ),
+        'search_items'          => __( 'Procurar Integrações' ),
+        'not_found'             => __( 'Nenhuma integração encontrada' ),
+        'not_found_in_trash'    => __( 'Nenhuma integração encontrada na lixeira' ), 
+        'parent_item_colon'     => '',
+        'menu_name'             => 'RD Station WP'
+    ];
+    $args = [
+        'labels'                => $labels,
+        'description'           => 'Integração do Contact Form 7 com o RD Station',
+        'public'                => true,
+        'menu_position'         => 50,
+        'supports'              => [ 'title' ],
+        'has_archive'           => false,
+    ];
+    register_post_type( 'rdcf7_integrations', $args );
 }
-add_action('admin_menu', 'rdcf7_add_menu_page');
+add_action( 'init', 'rdcf7_custom_post_type' );
 
-//Sections, settings and fields
-function rdcf7_initialize_theme_options(){
-	add_settings_section(
-		'rdcf7_data_section',
-		'Informações para Integração',
-		'rdcf7_section_data_display',
-		'rdcf7-theme-page'
-	);
-
-	add_settings_field(
-		'token_rdstation',
-		'Token RD Station',
-		'rdcf7_token_field_display',
-		'rdcf7-theme-page',
-		'rdcf7_data_section'
-	);
-
-	add_settings_field(
-		'form_identifier',
-		'Identificador do formulário',
-		'rdcf7_form_identifier_display',
-		'rdcf7-theme-page',
-		'rdcf7_data_section'
-	);
-
-	add_settings_field(
-		'form_id',
-		'Selecione o formulário',
-		'rdcf7_form_title_display',
-		'rdcf7-theme-page',
-		'rdcf7_data_section'
-	);
-
-	register_setting(
-		'rdcf7_data_section',
-		'rdcf7_options'
-	);
+// Meta box - Form identifier 
+function rdcf7_form_identifier_box() {
+    add_meta_box( 
+        'rdcf7_form_identifier_box',
+        'Identificador',
+        'rdcf7_form_identifier_box_content',
+        'rdcf7_integrations',
+        'normal'
+    );
 }
-add_action('admin_init', 'rdcf7_initialize_theme_options');
+add_action( 'add_meta_boxes', 'rdcf7_form_identifier_box' );
 
+function rdcf7_form_identifier_box_content(){
+    $identifier = get_post_meta(get_the_ID(), 'form_identifier', true);
+    echo '<input type="text" name="form_identifier" value="'.$identifier.'">';
+}
+add_action( 'save_post', 'rdcf7_form_identifier_box_save' );
 
-//Callbacks
-function rdcf7_page_display(){ ?>
-	<div class="wrap">
-		<h2>Integração RD Station e Contact Form</h2>
-		<form method="post" action="options.php">
-			<?php
-				settings_fields('rdcf7_data_section');
-				do_settings_sections('rdcf7-theme-page');
-				submit_button();
-			?>
-		</form>
-	</div>
-<?php }
-
-function rdcf7_section_data_display(){
-	echo "Insira as informações para integração do seu formulário de contato com o RD Station";
+function rdcf7_form_identifier_box_save( $post_id ) {
+  $identifier = $_POST['form_identifier'];
+  update_post_meta( $post_id, 'form_identifier', $identifier );
 }
 
-function rdcf7_token_field_display(){ 
-	$options = get_option('rdcf7_options');
-	$token = $options['token_rdstation'];
-	?>
-	<input type="text" name="rdcf7_options[token_rdstation]" id="rdcf7_options_token_rdstation" value="<?= $token ?>" size="32">
-<?php }
-
-function rdcf7_form_identifier_display(){ 
-	$options = get_option('rdcf7_options');
-	$identifier = $options['form_identifier'];
-	?>
-	<input type="text" name="rdcf7_options[form_identifier]" id="rdcf7_options_form_identifier" value="<?= $identifier ?>">
-<?php }
-
-function rdcf7_form_title_display( $cf7 ){
-	$options = get_option('rdcf7_options'); ?>
-	<select name="rdcf7_options[form_id]">
-		<option value=""> </option>
-		<?php
-			$args = array('post_type' => 'wpcf7_contact_form', 'posts_per_page' => -1);
-			if( $cf7Forms = get_posts( $args ) ){
-				foreach($cf7Forms as $cf7Form){
-					echo "<option value=".$cf7Form->ID.selected( $options['form_id'], $cf7Form->ID, false) .">".$cf7Form->post_title."</option>";
-				}
-			}
-		?>
-	</select>
-	<?php
+// Meta box - Token RD Station
+function rdcf7_token_rdstation_box() {
+    add_meta_box( 
+        'rdcf7_token_rdstation_box',
+        'Token RD Station',
+        'rdcf7_token_rdstation_box_content',
+        'rdcf7_integrations',
+        'normal'
+    );
 }
+add_action( 'add_meta_boxes', 'rdcf7_token_rdstation_box' );
+
+function rdcf7_token_rdstation_box_content(){
+    $token = get_post_meta(get_the_ID(), 'token_rdstation', true);
+    echo '<input type="text" name="token_rdstation" size="32" value="'.$token.'">';
+}
+add_action( 'save_post', 'rdcf7_token_rdstation_box_save' );
+
+function rdcf7_token_rdstation_box_save( $post_id ) {
+  $token = $_POST['token_rdstation'];
+  update_post_meta( $post_id, 'token_rdstation', $token );
+}
+
+// Meta box - CF7 ID
+function rdcf7_form_id_box() {
+    add_meta_box( 
+        'rdcf7_form_id_box',
+        'Qual formulário você deseja integrar ao RD Station?',
+        'rdcf7_form_id_box_content',
+        'rdcf7_integrations',
+        'normal'
+    );
+}
+add_action( 'add_meta_boxes', 'rdcf7_form_id_box' );
+
+function rdcf7_form_id_box_content(){
+    $form_id = get_post_meta(get_the_ID(), 'form_id', true); ?>
+    <select name="form_id">
+        <option value=""></option>
+        <?php
+            $args = ['post_type' => 'wpcf7_contact_form'];
+            $cf7Forms = get_posts( $args );
+            if( $cf7Forms ){
+                foreach($cf7Forms as $cf7Form){
+                    echo "<option value=".$cf7Form->ID.selected( $form_id, $cf7Form->ID, false) .">".$cf7Form->post_title."</option>";
+                }
+            }
+        ?>
+    </select>
+    <?php 
+}
+add_action( 'save_post', 'rdcf7_form_id_box_save' );
+
+function rdcf7_form_id_box_save( $post_id ) {
+  $token = $_POST['form_id'];
+  update_post_meta( $post_id, 'form_id', $token );
+}
+
+?>
