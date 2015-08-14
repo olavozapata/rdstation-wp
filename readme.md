@@ -4,6 +4,10 @@
 
 O RD Station WP é um plugin para WordPress, que realiza a integração do Contact Form 7 com o RD Station. Com ele você pode integrar qualquer formulário do seu site ou blog e ter um controle sobre esses formulários integrados.
 
+### Requisitos
+- Contact Form 7 instalado e configurado em seu site
+- Você precisa ter um campo chamado **email** ou **your-email** em seus formulários
+
 ### Instalando
 
 Antes de tudo, baixe o plugin [clicando aqui](https://github.com/ResultadosDigitais/rdstation-wp/archive/master.zip).
