@@ -2,7 +2,7 @@
 
 //Create custom post type for integrations
 function rdcf7_custom_post_type() {
-    $labels = [
+    $labels = array(
         'name'                  => _x( 'Integrações', 'post_type_general_name' ),
         'singular_name'         => _x( 'Integração', 'post_type_singular_name' ),
         'add_new'               => _x( 'Criar integração', 'integration' ),
@@ -16,15 +16,15 @@ function rdcf7_custom_post_type() {
         'not_found_in_trash'    => __( 'Nenhuma integração encontrada na lixeira' ), 
         'parent_item_colon'     => '',
         'menu_name'             => 'RD Station WP'
-    ];
-    $args = [
+    );
+    $args = array(
         'labels'                => $labels,
         'description'           => 'Integração do Contact Form 7 com o RD Station',
         'public'                => true,
         'menu_position'         => 50,
-        'supports'              => [ 'title' ],
+        'supports'              => array( 'title' ),
         'has_archive'           => false,
-    ];
+    );
     register_post_type( 'rdcf7_integrations', $args );
 }
 add_action( 'init', 'rdcf7_custom_post_type' );
@@ -92,7 +92,7 @@ function rdcf7_form_id_box_content(){
     <select name="form_id">
         <option value=""></option>
         <?php
-            $args = ['post_type' => 'wpcf7_contact_form'];
+            $args = array('post_type' => 'wpcf7_contact_form');
             $cf7Forms = get_posts( $args );
             if( $cf7Forms ){
                 foreach($cf7Forms as $cf7Form){

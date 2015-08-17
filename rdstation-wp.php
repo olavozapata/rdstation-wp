@@ -36,10 +36,10 @@ function addLeadConversion( $form_data ) {
 	    $form_data["your-email"]
 	);
 
-	$args = [
-        'headers' => ['Content-Type' => 'application/json'],
+	$args = array(
+        'headers' => array('Content-Type' => 'application/json'),
         'body' => json_encode($form_data)
-    ];
+    );
 
     $response = wp_remote_post( $api_url, $args );
     
@@ -51,7 +51,7 @@ function addLeadConversion( $form_data ) {
 
 function get_form_data( $cf7 ) {
 
-	$args = [ 'post_type'=>'rdcf7_integrations' ];
+	$args = array( 'post_type'=>'rdcf7_integrations' );
 	
 	$forms = get_posts($args);
 
@@ -63,7 +63,7 @@ function get_form_data( $cf7 ) {
 			 	$form_data = $submission->get_posted_data();
 			}
 			$form_data[ 'token_rdstation' ] 	= get_post_meta($form->ID, 'token_rdstation', true);
-			$form_data[ 'identificador' ] 	= get_post_meta($form->ID, 'form_identifier', true);
+			$form_data[ 'identificador' ] 		= get_post_meta($form->ID, 'form_identifier', true);
 	    	addLeadConversion($form_data);
 	    	break;
 		}
