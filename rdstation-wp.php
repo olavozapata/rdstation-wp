@@ -51,7 +51,7 @@ function addLeadConversion( $form_data ) {
 
 function get_form_data( $cf7 ) {
 
-	$args = array( 'post_type'=>'rdcf7_integrations' );
+	$args = array( 'post_type'=>'rdcf7_integrations', 'posts_per_page' => 100 );
 	
 	$forms = get_posts($args);
 
