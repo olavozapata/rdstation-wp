@@ -33,7 +33,7 @@ function gf_get_form_data( $entry, $form ) {
     	}
     }
 
-	$args = array( 'post_type'=>'rdgf_integrations' );
+	$args = array( 'post_type'=>'rdgf_integrations', 'posts_per_page' => 100 );
 
 	$forms = get_posts($args);
 
