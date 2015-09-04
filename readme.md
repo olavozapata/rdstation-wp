@@ -1,12 +1,12 @@
-# RD Station WP
+# Integração RD Station - WordPress
 
 ## Integre seus formulários de contato do WordPress com o RD Station
 
-O RD Station WP é um plugin para WordPress, que realiza a integração de seus formulários com o RD Station. Com ele você pode integrar qualquer formulário do seu site ou blog e ter controle sobre esses formulários integrados.
+Com este plugin você pode integrar qualquer formulário do seu site ou blog e ter controle sobre esses formulários integrados.
 
 ### Compatibilidade
 
-O RD Station WP atualmente é compatível com os seguintes plugins:
+O plugin **Integração RD Station** atualmente é compatível com os seguintes plugins de formulário:
 
 * [Contact Form 7](#contact-form-7)
 * [Gravity Forms](#gravity-forms)
