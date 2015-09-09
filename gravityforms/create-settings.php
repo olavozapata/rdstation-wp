@@ -33,7 +33,7 @@ function rdgf_custom_post_type() {
     if (is_plugin_active('gravityforms/gravityforms.php')) register_post_type( 'rdgf_integrations', $args );
 }
 
-// REMOVE VIEW PAGE
+// Remove View Page
 add_filter( 'post_row_actions', 'gf_remove_row_actions', 10, 2 );
 function gf_remove_row_actions( $actions, $post ) {
   global $current_screen;
@@ -43,7 +43,25 @@ function gf_remove_row_actions( $actions, $post ) {
     return $actions;
 }
 
-// GRAVITY FORMS META BOXES
+// Change Publish Button Text
+add_filter( 'gettext', 'rdgf_change_publish_button', 10, 2 );
+function rdgf_change_publish_button( $translation, $text ) {
+    if ( 'rdgf_integrations' == get_post_type())
+        if ( $text == 'Publish')
+            return 'Integrar';
+    return $translation;
+}
+
+// Change Default Placeholder Title
+add_filter( 'enter_title_here', 'rdgf_change_default_title' );
+function rdgf_change_default_title( $title ){
+    $screen = get_current_screen();
+    if ( 'rdgf_integrations' == $screen->post_type )
+        $title = 'Dê um nome para essa integração';
+    return $title;
+}
+
+// Gravity Forms Meta Box
 add_action( 'add_meta_boxes', 'rdgf_form_identifier_box' );
 function rdgf_form_identifier_box() {
     add_meta_box(
@@ -58,6 +76,7 @@ function rdgf_form_identifier_box() {
 function rdgf_form_identifier_box_content(){
     $identifier = get_post_meta(get_the_ID(), 'gf_form_identifier', true);
     echo '<input type="text" name="gf_form_identifier" value="'.$identifier.'">';
+    echo '<span>Esse identificador irá lhe ajudar a saber o formulário de origem do lead.</span>';
 }
 
 add_action( 'save_post', 'rdgf_form_identifier_box_save' );
@@ -80,6 +99,7 @@ function rdgf_token_rdstation_box() {
 function rdgf_token_rdstation_box_content(){
     $token = get_post_meta(get_the_ID(), 'token_rdstation', true);
     echo '<input type="text" name="token_rdstation" size="32" value="'.$token.'">';
+    echo '<span>Não sabe seu token? <a href="https://www.rdstation.com.br/integracoes" target="blank">Clique aqui</a></span>';
 }
 
 add_action( 'save_post', 'rdgf_token_rdstation_box_save' );
@@ -100,19 +120,22 @@ function rdgf_form_id_box() {
 }
 
 function rdgf_form_id_box_content(){
-    $form_id = get_post_meta(get_the_ID(), 'gf_form_id', true); ?>
-    <select name="gf_form_id">
-        <option value=""> </option>
-        <?php
-            $gForms = RGFormsModel::get_forms( null, 'title' );
-            if( $gForms ){
+    $form_id = get_post_meta(get_the_ID(), 'gf_form_id', true);
+    $gForms = RGFormsModel::get_forms( null, 'title' );
+    if( !$gForms ) :
+        echo '<p>Não encontramos nenhum formulário cadastrado, entre no seu plugin de formulário de contato ou <a href="admin.php?page=gf_new_form">clique aqui para criar um novo.</a></p>';
+
+    else : ?>
+        <select name="gf_form_id">
+            <option value=""> </option>
+            <?php
                 foreach($gForms as $gForm){
                     echo "<option value=".$gForm->id.selected( $form_id, $gForm->id, false) .">".$gForm->title."</option>";
                 }
-            }
-        ?>
-    </select>
+            ?>
+        </select>
     <?php
+    endif;
 }
 
 add_action( 'save_post', 'rdgf_form_id_box_save' );

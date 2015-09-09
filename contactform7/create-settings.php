@@ -42,8 +42,8 @@ function cf7_remove_row_actions( $actions, $post ) {
 }
 
 // Change Publish Button Text
-add_filter( 'gettext', 'change_publish_button', 10, 2 );
-function change_publish_button( $translation, $text ) {
+add_filter( 'gettext', 'rdcf7_change_publish_button', 10, 2 );
+function rdcf7_change_publish_button( $translation, $text ) {
     if ( 'rdcf7_integrations' == get_post_type())
         if ( $text == 'Publish')
             return 'Integrar';
