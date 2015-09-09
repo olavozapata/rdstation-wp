@@ -27,13 +27,9 @@ along with Integração RD Station. If not, see https://www.gnu.org/licenses/gpl
 
 if ( is_admin() ) {
 	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-
-	// Contact Form 7
 	include_once( dirname(__file__).'/contactform7/create-settings.php');
-	include_once( dirname(__file__).'/contactform7/lead-conversion.php');
-
-	// Gravity Forms
 	include_once( dirname(__file__).'/gravityforms/create-settings.php');
-	include_once( dirname(__file__).'/gravityforms/lead-conversion.php');
 }
 
+include_once( dirname(__file__).'/contactform7/lead-conversion.php');
+include_once( dirname(__file__).'/gravityforms/lead-conversion.php');
