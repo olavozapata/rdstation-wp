@@ -32,17 +32,34 @@ function rdcf7_custom_post_type() {
     if (is_plugin_active('contact-form-7/wp-contact-form-7.php')) register_post_type( 'rdcf7_integrations', $args );
 }
 
-// REMOVE VIEW PAGE
+// Remove View Page
 add_filter( 'post_row_actions', 'cf7_remove_row_actions', 10, 2 );
 function cf7_remove_row_actions( $actions, $post ) {
-  global $current_screen;
-    if( $current_screen->post_type != 'rdcf7_integrations' ) return $actions;
+    if( get_post_type() != 'rdcf7_integrations' ) return $actions;
     unset( $actions['view'] );
     unset( $actions['inline hide-if-no-js'] );
     return $actions;
 }
 
-// CONTACT FORM 7 META BOXES
+// Change Publish Button Text
+add_filter( 'gettext', 'change_publish_button', 10, 2 );
+function change_publish_button( $translation, $text ) {
+    if ( 'rdcf7_integrations' == get_post_type())
+        if ( $text == 'Publish')
+            return 'Integrar';
+    return $translation;
+}
+
+// Change Default Placeholder Title
+add_filter( 'enter_title_here', 'rdcf7_change_default_title' );
+function rdcf7_change_default_title( $title ){
+    $screen = get_current_screen();
+    if ( 'rdcf7_integrations' == $screen->post_type )
+        $title = 'Dê um nome para essa integração';
+    return $title;
+}
+
+// Contact Form 7 Meta Boxes
 add_action( 'add_meta_boxes', 'rdcf7_form_identifier_box' );
 function rdcf7_form_identifier_box() {
     add_meta_box(
@@ -57,6 +74,7 @@ function rdcf7_form_identifier_box() {
 function rdcf7_form_identifier_box_content(){
     $identifier = get_post_meta(get_the_ID(), 'form_identifier', true);
     echo '<input type="text" name="form_identifier" value="'.$identifier.'">';
+    echo '<span>Esse identificador irá lhe ajudar a saber o formulário de origem do lead.</span>';
 }
 
 add_action( 'save_post', 'rdcf7_form_identifier_box_save' );
@@ -79,6 +97,7 @@ function rdcf7_token_rdstation_box() {
 function rdcf7_token_rdstation_box_content(){
     $token = get_post_meta(get_the_ID(), 'token_rdstation', true);
     echo '<input type="text" name="token_rdstation" size="32" value="'.$token.'">';
+    echo '<span>Não sabe seu token? <a href="https://www.rdstation.com.br/integracoes" target="blank">Clique aqui</a></span>';
 }
 
 add_action( 'save_post', 'rdcf7_token_rdstation_box_save' );
@@ -99,20 +118,23 @@ function rdcf7_form_id_box() {
 }
 
 function rdcf7_form_id_box_content(){
-    $form_id = get_post_meta(get_the_ID(), 'form_id', true); ?>
-    <select name="form_id">
-        <option value=""></option>
-        <?php
-            $args = array('post_type' => 'wpcf7_contact_form', 'posts_per_page' => 100);
-            $cf7Forms = get_posts( $args );
-            if( $cf7Forms ){
-                foreach($cf7Forms as $cf7Form){
+    $form_id = get_post_meta(get_the_ID(), 'form_id', true);
+    $args = array('post_type' => 'wpcf7_contact_form', 'posts_per_page' => 100);
+    $cf7Forms = get_posts( $args );
+
+    if ( !$cf7Forms ) :
+        echo '<p>Não encontramos nenhum formulário cadastrado, entre no seu plugin de formulário de contato ou <a href="admin.php?page=wpcf7-new">clique aqui para criar um novo.</a></p>';
+    else : ?>
+        <select name="form_id">
+            <option value=""></option>
+                <?php
+                foreach($cf7Forms as $cf7Form) {
                     echo "<option value=".$cf7Form->ID.selected( $form_id, $cf7Form->ID, false) .">".$cf7Form->post_title."</option>";
                 }
-            }
-        ?>
-    </select>
+                ?>
+        </select>
     <?php
+    endif;
 }
 
 add_action( 'save_post', 'rdcf7_form_id_box_save' );
