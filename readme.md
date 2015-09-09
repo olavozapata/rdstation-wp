@@ -28,7 +28,7 @@ A integração no Contact Form 7 só irá funcionar com formulários que possuem
 
 Para fazer uma integração, clique no item **RD Station CF7** que apareceu no menu do seu painel. Para criar uma nova integração, basta clicar em **Criar integração** e preencher os dados solicitados no formulário, como na imagem abaixo.
 
-![Contact Form 7 Screenshot](images/cf7.png "cf7_screenshot")
+![Contact Form 7 Screenshot](assets/cf7.png "cf7_screenshot")
 *Clique na imagem para ampliar*
 
 
@@ -48,7 +48,7 @@ Veja como criar campos do tipo e-mail no Gravity Forms na [Central de Ajuda do R
 
 Para fazer uma integração, clique no item **RD Station GF** que apareceu no menu do seu painel. Após isso o processo para criar uma nova integração é o mesmo do Contact Form 7: clique em **Criar integração** e preencha os dados solicitados no formulário, como na imagem abaixo.
 
-![Gravity Form Screenshot](images/gf.png "gf_screenshot")
+![Gravity Form Screenshot](assets/gf.png "gf_screenshot")
 *Clique na imagem para ampliar*
 
 Siga os mesmos passos usados no [Contact Form 7](#contact-form-7)
