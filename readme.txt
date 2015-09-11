@@ -49,8 +49,8 @@ https://github.com/ResultadosDigitais/rdstation-wp
 
 == Screenshots ==
 
-![Contact Form 7](/assets/cf7.png)
-![Gravity Forms](/assets/gf.png)
+1. Contact Form 7
+2. Gravity Forms
 
 == Changelog ==
 
