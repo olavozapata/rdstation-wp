@@ -55,4 +55,4 @@ Siga os mesmos passos usados no [Contact Form 7](#contact-form-7)
 Clique em **Integrar** e seu formulário escolhido está integrado ao RD Station.
 
 ### Múltiplas integrações
-Você pode integrar quantos formulários for ncessário. Além disso, você também pode integrar um único formulário a mais de uma conta no RD Station, criando duas integrações com tokens diferentes. Isso pode ser útil quando você criar alguma campanha com um parceiro, e precisa gerar o lead para as duas contas.
+Você pode integrar quantos formulários for necessário. Além disso, você também pode integrar um único formulário a mais de uma conta no RD Station, criando duas integrações com tokens diferentes. Isso pode ser útil quando você criar alguma campanha com um parceiro, e precisa gerar o lead para as duas contas.
