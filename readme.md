@@ -56,3 +56,7 @@ Clique em **Integrar** e seu formulário escolhido está integrado ao RD Station
 
 ### Múltiplas integrações
 Você pode integrar quantos formulários for necessário. Além disso, você também pode integrar um único formulário a mais de uma conta no RD Station, criando duas integrações com tokens diferentes. Isso pode ser útil quando você criar alguma campanha com um parceiro, e precisa gerar o lead para as duas contas.
+
+### Campos personalizados
+
+Para que os dados de um campo do formulário sejam enviados como campo personalizado para o seu RD Station, você só precisa criar um campo no formulário com o mesmo nome definido no RD Station. Por exemplo, se você tem um campo personalizado chamado **idioma**, você só precisa criar um campo no seu formulário com `name="idioma"`.
