@@ -53,8 +53,9 @@ function get_form_data( $cf7 ) {
 			if ( $submission ) {
 			 	$form_data = $submission->get_posted_data();
 			}
-			$form_data[ 'token_rdstation' ] 	= get_post_meta($form->ID, 'token_rdstation', true);
-			$form_data[ 'identificador' ] 		= get_post_meta($form->ID, 'form_identifier', true);
+			$form_data[ 'token_rdstation' ] = get_post_meta($form->ID, 'token_rdstation', true);
+			$form_data[ 'identificador' ] 	= get_post_meta($form->ID, 'form_identifier', true);
+			$form_data['form_origem']		= 'Plugin Contact Form 7';
 	    	addLeadConversion($form_data);
 		}
 	}

@@ -42,6 +42,7 @@ function gf_get_form_data( $entry, $form ) {
 	    if ( $form_id == $form_data['id'] ) {
 			$form_data[ 'token_rdstation' ] = get_post_meta($form->ID, 'token_rdstation', true);
 			$form_data[ 'identificador' ] 	= get_post_meta($form->ID, 'gf_form_identifier', true);
+			$form_data['form_origem']		= 'Plugin Gravity Forms';
 	    	gf_add_lead_conversion($form_data);
 		}
 	}

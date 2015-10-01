@@ -54,10 +54,16 @@ https://github.com/ResultadosDigitais/rdstation-wp
 
 == Changelog ==
 
+= 1.1 =
+* Permite enviar um novo campo para o formulário, chamado "form_origem".
+
 = 1.0 =
 * Gravity Forms and Contact Form 7 support.
 
 == Upgrade Notice ==
+
+= 1.1 =
+* Permite enviar um novo campo para o formulário, chamado "form_origem".
 
 = 1.0 =
 * Gravity Forms and Contact Form 7 support.
