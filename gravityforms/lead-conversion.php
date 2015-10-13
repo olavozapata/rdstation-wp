@@ -5,6 +5,7 @@ function gf_add_lead_conversion( $form_data ) {
 	$api_url = "http://www.rdstation.com.br/api/1.2/conversions";
 
 	empty($form_data["c_utmz"]) ? $form_data["c_utmz"] = $_COOKIE["__utmz"] : false;
+	empty($form_data["traffic_source"]) ? $form_data["traffic_source"] = $_COOKIE["__trf.src"] : false;
 
 	if (empty($form_data["client_id"]) && !empty($_COOKIE["rdtrk"])) {
 	    preg_match("/(\w{8}-\w{4}-4\w{3}-\w{4}-\w{12})/",$_COOKIE["rdtrk"],$Matches);
