@@ -6,6 +6,7 @@ function addLeadConversion( $form_data ) {
 
 	empty($form_data["email"]) ? $form_data["email"] = $form_data["your-email"] : false;
 	empty($form_data["c_utmz"]) ? $form_data["c_utmz"] = $_COOKIE["__utmz"] : false;
+	empty($form_data["traffic_source"]) ? $form_data["traffic_source"] = $_COOKIE["__trf_src"] : false;
 
 	if (empty($form_data["client_id"]) && !empty($_COOKIE["rdtrk"])) {
 	    preg_match("/(\w{8}-\w{4}-4\w{3}-\w{4}-\w{12})/",$_COOKIE["rdtrk"],$Matches);
