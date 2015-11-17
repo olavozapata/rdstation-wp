@@ -60,3 +60,9 @@ Você pode integrar quantos formulários for necessário. Além disso, você tam
 ### Campos personalizados
 
 Para que os dados de um campo do formulário sejam enviados como campo personalizado para o seu RD Station, você só precisa criar um campo no formulário com o mesmo nome definido no RD Station. Por exemplo, se você tem um campo personalizado chamado **idioma**, você só precisa criar um campo no seu formulário com `name="idioma"`.
+
+### Mapeamento de campos
+
+Se você usa o Gravity Forms, deve ter percebido que quando um formulário é criado, os campos são gerados com nomes não amigáveis, por exemplo: input_1, input_2, input_3... Em consequencia disto, os leads chegam no RD Station de uma forma difícil de ser identificada.
+
+Na página de configuração das integrações, você pode definir o nome de cada campo do seu formulário. Você pode dizer, por exemplo, que o campo `input_1` vai se chamar `nome` e o `input_2` será cidade.

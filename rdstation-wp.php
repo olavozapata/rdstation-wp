@@ -4,7 +4,7 @@
 Plugin Name: 	Integração RD Station
 Plugin URI: 	https://wordpress.org/plugins/integracao-rdstation
 Description: 	Integre seus formulários de contato do WordPress com o RD Station
-Version: 		1.2
+Version: 		2.0
 Author: 		Resultados Digitais
 Author URI: 	http://resultadosdigitais.com.br
 License: 		GPL2
@@ -25,11 +25,19 @@ along with Integração RD Station. If not, see https://www.gnu.org/licenses/gpl
 
 */
 
-if ( is_admin() ) {
-	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-	include_once( dirname(__file__).'/contactform7/create-settings.php');
-	include_once( dirname(__file__).'/gravityforms/create-settings.php');
-}
+require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+require_once('RD_Custom_Post_Type.php');
+require_once('lead-conversion.php');
 
-include_once( dirname(__file__).'/contactform7/lead-conversion.php');
-include_once( dirname(__file__).'/gravityforms/lead-conversion.php');
+function enqueue_rd_admin_style($hook) {
+    if ( 'post.php' != $hook ) return;
+    wp_enqueue_style( 'rd_admin_style', plugin_dir_url( __FILE__ ) . 'styles/admin.css' );
+}
+add_action( 'admin_enqueue_scripts', 'enqueue_rd_admin_style' );
+
+
+$contact_form_7 = new RD_Custom_Post_Type ( 'CF7', 'Contact Form 7', 'rdcf7', 'contact-form-7/wp-contact-form-7.php' );
+new LeadConversion('contact_form_7', 'wpcf7_mail_sent');
+
+$gravity_forms = new RD_Custom_Post_Type ( 'GF', 'Gravity Forms', 'rdgf', 'gravityforms/gravityforms.php' );
+new LeadConversion('gravity_forms', 'gform_after_submission');
