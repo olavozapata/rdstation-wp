@@ -7,10 +7,10 @@ class RD_Custom_Post_Type {
 		$this->name = $name;
 		$this->slug = $slug;
 		$this->plugin_path = $plugin_path;
-		add_action( 'init', array($this, 'custom_post_type' ));
+		add_action( 'init', array($this, 'rd_custom_post_type' ));
 	}
 
-	public function custom_post_type() {
+	public function rd_custom_post_type() {
 		require_once("metaboxes/$this->slug.php");
 
 	    $labels = array(

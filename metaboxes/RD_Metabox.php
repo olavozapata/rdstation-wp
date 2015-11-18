@@ -39,7 +39,6 @@ class RD_Metabox {
 	    $use_post_title = get_post_meta(get_the_ID(), 'use_post_title', true); ?>
 	    <input type="text" name="form_identifier" value="<?php echo $identifier; ?>">
 	    <span class="rd-integration-tips">Esse identificador irá lhe ajudar a saber o formulário de origem do lead.</span>
-	    <p><input name="use_post_title" type="checkbox" <?php if (!empty($use_post_title)) echo 'checked="checked"'; ?> > Usar título do post como identificador</p>
 	    <?php
 	}
 

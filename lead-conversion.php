@@ -2,16 +2,10 @@
 
 class LeadConversion {
 
-	public $form_data = [];
+	public $form_data = array();
 
 	public function __construct($callback, $submit_action){
-		add_filter('the_title', array($this, 'get_post_title'));
 		add_filter($submit_action, array($this, $callback), 10, 2);
-	}
-
-	function get_post_title(){
-		global $post;
-		return $_SESSION['post_title'] = $post->post_title;
 	}
 
 	private function ignore_fields(array $fields){
@@ -23,7 +17,7 @@ class LeadConversion {
 	}
 
 	private function can_save_lead($data){
-    	$required_fields = ['email', 'token_rdstation', 'identificador'];
+    	$required_fields = array('email', 'token_rdstation', 'identificador');
 		foreach ($required_fields as $field) {
   			if(empty($data[$field]) || is_null($data[$field])){
     			return false;
@@ -75,20 +69,22 @@ class LeadConversion {
 				$submission = WPCF7_Submission::get_instance();
 				if ( $submission ) $this->form_data = $submission->get_posted_data();
 				$this->generate_static_fields($form->ID, 'Plugin Contact Form 7');
-				$this->ignore_fields([
-					'password',
-					'password_confirmation',
-					'senha',
-				    'confirme_senha',
-				    'captcha',
-				    '_wpcf7',
-				    '_wpcf7_version',
-				    '_wpcf7_unit_tag',
-				    '_wpnonce',
-				    '_wpcf7_is_ajax_call',
-				    '_wpcf7_locale',
-				    'your-emai'
-				]);
+				$this->ignore_fields(
+					array(
+						'password',
+						'password_confirmation',
+						'senha',
+					    'confirme_senha',
+					    'captcha',
+					    '_wpcf7',
+					    '_wpcf7_version',
+					    '_wpcf7_unit_tag',
+					    '_wpnonce',
+					    '_wpcf7_is_ajax_call',
+					    '_wpcf7_locale',
+					    'your-email'
+					)
+				);
 		    	$this->conversion($this->form_data);
 			}
 		}
@@ -121,11 +117,7 @@ class LeadConversion {
 		$this->form_data[ 'token_rdstation' ] = get_post_meta($form_id, 'token_rdstation', true);
 		$this->form_data[ 'identificador' ] = get_post_meta($form_id, 'form_identifier', true);
 		$this->form_data[ 'form_origem' ] = $origin_form;
-		if (!empty(get_post_meta($form_id, 'use_post_title', true))) {
-			$this->form_data['identificador'] = $_SESSION['post_title'];
-		} else {
-			$this->form_data[ 'identificador' ] = get_post_meta($form_id, 'form_identifier', true);
-		}
+		$this->form_data[ 'identificador' ] = get_post_meta($form_id, 'form_identifier', true);
 	}
 
 }
