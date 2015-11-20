@@ -38,6 +38,23 @@ class LeadConversion {
 		    $form_data["client_id"] = $Matches[0];
 		}
 
+		$this->ignore_fields(
+			array(
+				'password',
+				'password_confirmation',
+				'senha',
+			    'confirme_senha',
+			    'captcha',
+			    '_wpcf7',
+			    '_wpcf7_version',
+			    '_wpcf7_unit_tag',
+			    '_wpnonce',
+			    '_wpcf7_is_ajax_call',
+			    '_wpcf7_locale',
+			    'your-email'
+			)
+		);
+
 		if($this->can_save_lead($form_data)){
 			$args = array(
 		        'headers' => array('Content-Type' => 'application/json'),
@@ -69,22 +86,6 @@ class LeadConversion {
 				$submission = WPCF7_Submission::get_instance();
 				if ( $submission ) $this->form_data = $submission->get_posted_data();
 				$this->generate_static_fields($form->ID, 'Plugin Contact Form 7');
-				$this->ignore_fields(
-					array(
-						'password',
-						'password_confirmation',
-						'senha',
-					    'confirme_senha',
-					    'captcha',
-					    '_wpcf7',
-					    '_wpcf7_version',
-					    '_wpcf7_unit_tag',
-					    '_wpnonce',
-					    '_wpcf7_is_ajax_call',
-					    '_wpcf7_locale',
-					    'your-email'
-					)
-				);
 		    	$this->conversion($this->form_data);
 			}
 		}
