@@ -23,7 +23,7 @@ class LeadConversion {
     			return false;
   			}
 		}
-		return strlen($data['token_rdstation']) == 32 ? true : false;
+		return strlen( $data['token_rdstation'] ) == 32 ? true : false;
   	}
 
 	public function conversion( $form_data ) {
