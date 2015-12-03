@@ -60,7 +60,6 @@ class LeadConversion {
 		        'headers' => array('Content-Type' => 'application/json'),
 		        'body' => json_encode($form_data)
 		    );
-
 	    	$response = wp_remote_post( $api_url, $args );
 		    if (is_wp_error($response)){
 		    	wp_die('Erro ao enviar o formulário');
@@ -102,9 +101,13 @@ class LeadConversion {
 			$fields = get_post_meta($form->ID, 'gf_mapped_fields', true);
 		    $form_id = get_post_meta($form->ID, 'form_id', true);
 		    if ( $form_id == $gform['id'] ) {
+
 		    	foreach ($this->form_data as $key => $value) {
-		    		if($fields[$value] != null) {
+		    		if($fields[$value] != null && !empty($fields[$value])) {
 		    			$this->form_data[$key] = $fields[$value];
+		    		}
+		    		else {
+		    			unset($this->form_data[$key]);
 		    		}
 		    	}
 		    	$this->form_data = array_flip($this->form_data);

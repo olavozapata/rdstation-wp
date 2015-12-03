@@ -32,7 +32,7 @@
 			    				$value = $form_map[$field['id']];
 			    			}
 			    			else {
-			    				$value = $field['id'];
+			    				$value = '';
 			    			}
 			    			echo '<p class="rd-fields-mapping"><span class="rd-fields-mapping-label">' . $field['label'] . '</span> <span class="dashicons dashicons-arrow-right-alt"></span> <input type="text" name="gf_mapped_fields['.$field['id'].']" value="'.$value.'">';
 			    		}
