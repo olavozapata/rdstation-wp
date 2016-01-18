@@ -8,12 +8,13 @@ class LeadConversion {
 		add_filter($submit_action, array($this, $callback), 10, 2);
 	}
 
-	private function ignore_fields(array $fields){
-		foreach ($this->form_data as $field => $value) {
+	private function ignore_fields(array $fields, $data){
+		foreach ($data as $field => $value) {
 			if(in_array($field, $fields)){
-	    		unset($this->form_data[$field]);
+	    		unset($data[$field]);
 	  		}
 		}
+		return $data;
 	}
 
 	private function can_save_lead($data){
@@ -30,41 +31,51 @@ class LeadConversion {
 	 	$api_url = "http://www.rdstation.com.br/api/1.2/conversions";
 
 		empty($form_data["email"]) ? $form_data["email"] = $form_data["your-email"] : false;
-		empty($form_data["c_utmz"]) ? $form_data["c_utmz"] = $_COOKIE["__utmz"] : false;
-		empty($form_data["traffic_source"]) ? $form_data["traffic_source"] = $_COOKIE["__trf_src"] : false;
+
+    if ( isset($_COOKIE["__utmz"]) && empty($form_data["c_utmz"]) ) {
+      $form_data["c_utmz"] = $_COOKIE["__utmz"];
+    }
+
+    if ( isset($_COOKIE["__trf_src"]) && empty($form_data["traffic_source"]) ) {
+      $form_data["traffic_source"] = $_COOKIE["__trf_src"];
+    }
 
 		if (empty($form_data["client_id"]) && !empty($_COOKIE["rdtrk"])) {
 		    preg_match("/(\w{8}-\w{4}-4\w{3}-\w{4}-\w{12})/",$_COOKIE["rdtrk"],$Matches);
 		    $form_data["client_id"] = $Matches[0];
 		}
 
-		$this->ignore_fields(
+		$form_data = $this->ignore_fields(
 			array(
 				'password',
 				'password_confirmation',
 				'senha',
-			    'confirme_senha',
-			    'captcha',
-			    '_wpcf7',
-			    '_wpcf7_version',
-			    '_wpcf7_unit_tag',
-			    '_wpnonce',
-			    '_wpcf7_is_ajax_call',
-			    '_wpcf7_locale',
-			    'your-email'
-			)
+		    'confirme_senha',
+		    'captcha',
+		    '_wpcf7',
+		    '_wpcf7_version',
+		    '_wpcf7_unit_tag',
+		    '_wpnonce',
+		    '_wpcf7_is_ajax_call',
+		    '_wpcf7_locale',
+		    'your-email'
+			),
+			$form_data
 		);
 
 		if($this->can_save_lead($form_data)){
 			$args = array(
-		        'headers' => array('Content-Type' => 'application/json'),
-		        'body' => json_encode($form_data)
-		    );
-	    	$response = wp_remote_post( $api_url, $args );
-		    if (is_wp_error($response)){
-		    	wp_die('Erro ao enviar o formulário');
-		    	unset($form_data);
-		    }
+        'headers' => array('Content-Type' => 'application/json'),
+        'body' => json_encode($form_data)
+	    );
+
+      $response = wp_remote_post( $api_url, $args );
+
+      // Erro de timeout no post
+      if (is_wp_error($response)){
+	    	wp_die('Erro ao enviar o formulário');
+	    	unset($form_data);
+	    }
 		}
 		else {
 			wp_die('Erro ao enviar o formulário. Certifique-se de ter preenchido os campos corretamente');
@@ -78,10 +89,9 @@ class LeadConversion {
 
 	public function contact_form_7($cf7){
 		$forms = $this->get_forms('rdcf7_integrations');
-
 		foreach ($forms as $form) {
 		    $form_id = get_post_meta($form->ID, 'form_id', true);
-		    if ( $form_id == $cf7->id ) {
+		    if ( $form_id == $cf7->id() ) {
 				$submission = WPCF7_Submission::get_instance();
 				if ( $submission ) $this->form_data = $submission->get_posted_data();
 				$this->generate_static_fields($form->ID, 'Plugin Contact Form 7');
