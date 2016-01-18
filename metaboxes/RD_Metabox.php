@@ -50,11 +50,11 @@ class RD_Metabox {
 	}
 
 	public function rd_save_meta_boxes($post_id){
-		update_post_meta( $post_id, 'form_identifier', $_POST['form_identifier'] );
-		update_post_meta( $post_id, 'use_post_title', $_POST['use_post_title'] );
-		update_post_meta( $post_id, 'token_rdstation', $_POST['token_rdstation'] );
-		update_post_meta( $post_id, 'form_id', $_POST['form_id'] );
-		update_post_meta( $post_id, 'gf_mapped_fields', $_POST['gf_mapped_fields'] );
+		if ( isset( $_POST['form_identifier'] ) ) update_post_meta( $post_id, 'form_identifier', $_POST['form_identifier'] );
+		if ( isset( $_POST['use_post_title'] ) )  update_post_meta( $post_id, 'use_post_title', $_POST['use_post_title'] );
+		if ( isset( $_POST['token_rdstation'] ) ) update_post_meta( $post_id, 'token_rdstation', $_POST['token_rdstation'] );
+		if ( isset( $_POST['form_id'] ) ) update_post_meta( $post_id, 'form_id', $_POST['form_id'] );
+		if ( isset( $_POST['gf_mapped_fields'] ) ) update_post_meta( $post_id, 'gf_mapped_fields', $_POST['gf_mapped_fields'] );
 	}
 
 }
