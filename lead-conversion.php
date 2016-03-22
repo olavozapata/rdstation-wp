@@ -134,6 +134,7 @@ class LeadConversion {
     $this->form_data[ 'identificador' ] = get_post_meta($form_id, 'form_identifier', true);
     $this->form_data[ 'form_origem' ] = $origin_form;
     $this->form_data[ 'identificador' ] = get_post_meta($form_id, 'form_identifier', true);
+    $this->form_data[ '_is' ] = 8; // Internal source
   }
 
   private function get_email_field($form_data) {
