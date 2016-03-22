@@ -28,7 +28,7 @@ class LeadConversion {
   }
 
   public function conversion( $form_data ) {
-    $api_url = "http://www.rdstation.com.br/api/1.2/conversions";
+    $api_url = "https://app.rdstation.com.br/api/1.3/conversions";
 
     empty($form_data["email"]) ? $form_data["email"] = $form_data["your-email"] : false;
 
