@@ -28,9 +28,9 @@ class LeadConversion {
   }
 
   public function conversion( $form_data ) {
-    $api_url = "http://www.rdstation.com.br/api/1.2/conversions";
+    $api_url = "https://app.rdstation.com.br/api/1.3/conversions";
 
-    empty($form_data["email"]) ? $form_data["email"] = $form_data["your-email"] : false;
+    $form_data["email"] = $this->get_email_field($form_data);
 
     if ( isset($_COOKIE["__utmz"]) && empty($form_data["c_utmz"]) ) {
       $form_data["c_utmz"] = $_COOKIE["__utmz"];
@@ -58,7 +58,9 @@ class LeadConversion {
         '_wpnonce',
         '_wpcf7_is_ajax_call',
         '_wpcf7_locale',
-        'your-email'
+        'your-email',
+        'e-mail',
+        'mail',
       ), $form_data
     );
 
@@ -132,5 +134,26 @@ class LeadConversion {
     $this->form_data[ 'identificador' ] = get_post_meta($form_id, 'form_identifier', true);
     $this->form_data[ 'form_origem' ] = $origin_form;
     $this->form_data[ 'identificador' ] = get_post_meta($form_id, 'form_identifier', true);
+    $this->form_data[ '_is' ] = 8; // Internal source
+  }
+
+  private function get_email_field($form_data) {
+    $common_email_names = array(
+      'email',
+      'your-email',
+      'e-mail',
+      'mail',
+    );
+
+    $match_keys = array_intersect_key(array_flip($common_email_names), $form_data);
+    if (count($match_keys) > 0) {
+       return $form_data[key($match_keys)];
+    } else {
+      foreach (array_keys($form_data) as $key) {
+        if (preg_match('/mail/', $key)) {
+          return $form_data[$key];
+        }
+      }
+    }
   }
 }
